@@ -90,10 +90,9 @@ strong {
 }
 
 h2 {
-  margin: 0;
-  font-weight: normal;
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
-  font-size: 22px;
+  font-size: 25px;
+  margin: 0%;
 }
 
 .papertitle {
@@ -133,3 +132,4 @@ h2 {
 span.highlight {
   background-color: #ffffd0;
 }
+
