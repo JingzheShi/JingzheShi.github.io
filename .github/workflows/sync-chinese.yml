@@ -1,0 +1,29 @@
+name: Sync Chinese Homepage
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'Chinese_ver.html'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main repo
+        uses: actions/checkout@v4
+
+      - name: Prepare index.html with base tag
+        run: |
+          sed 's|<link rel="shortcut icon"|<base href="https://jingzheshi.github.io/">\n    <link rel="shortcut icon"|' Chinese_ver.html > /tmp/index.html
+
+      - name: Push to org repo
+        run: |
+          git clone https://x-access-token:${{ secrets.ORG_REPO_TOKEN }}@github.com/jingzhe-cn/jingzhe-cn.github.io.git /tmp/org-repo
+          cp /tmp/index.html /tmp/org-repo/index.html
+          cd /tmp/org-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --staged --quiet || git commit -m "Sync Chinese homepage from main repo"
+          git push
